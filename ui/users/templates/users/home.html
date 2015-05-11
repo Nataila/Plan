@@ -1,0 +1,32 @@
+{% load i18n %}
+{% load staticfiles %}`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="{% static 'libs/css/semantic.css' %}">
+</head>
+<body>
+  <form action="." method="Post">
+    {% csrf_token %}
+    <div class="ui form">
+      <div class="inline field">
+        <div class="ui left icon input">
+          <input type="text" placeholder="username">
+          <i class="user icon"></i>
+        </div>
+        <div class="ui left icon input">
+          <input type="text" placeholder="password">
+          <i class="lock icon"></i>
+        </div>
+        <button type="submit" class="ui submit button blue">{% trans '登陆' %}</button>
+        <a class="ui blue button" href="{% url 'register' %}">{% trans '注册' %}</a>
+      </div>
+    </div>
+  </form>
+</body>
+<script type='text/javascript' src="{% static 'libs/js/jquery-1.11.3.js' %}"></script>
+<script type='text/javascript' src="{% static 'libs/js/semantic.js' %}"></script>
+<script type='text/javascript' src="{% static 'libs/js/angular.js' %}"></script>
+</html>

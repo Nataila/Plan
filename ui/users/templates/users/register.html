@@ -12,28 +12,69 @@
   <script type='text/javascript' src="{% static 'users/js/controller.js' %}"></script>
 </head>
 <body ng-app="registerApp" ng-controller="registerCtrl">
-  <form action="." method="POST" name='registerForm' ng-submit="submitForm(registerForm.$valid)">
+  <form class="ui form" method="POST" name="registerForm" ng-submit="submitRegisterForm()" novalidate>
     {% csrf_token %}
-    <table cellspacing="10">
-      <tr>
-        <th><label for="id_username">用户名:</label></th>
-        <td class="ui input mini"><input id="id_username" maxlength="100" name="username" type="text" ng-model="username" required ng-maxlength="3"/></td>
-      </tr>
-      <tr>
-        <th><label for="id_password1">请输入密码:</label></th>
-        <td class="ui input mini"><input id="id_password1" maxlength="100" name="password1" type="password" ng-model="password1" required /></td>
-      </tr>
-      <tr>
-        <th><label for="id_password2">请确认密码:</label></th>
-        <td class="ui input mini"><input id="id_password2" maxlength="100" name="password2" type="password" ng-model="password2" required /></td>
-      </tr>
-      <tr>
-        <th><label for="id_email">电子邮箱:</label></th>
-        <td class="ui input mini"><input id="id_email" name="email" type="email" ng-model="email" required /></td>
-      </tr>
-    </table>
-    <button type="submit" class="ui primary button">{% trans '注册' %}</button>
-    <span ng-bind="username"></span>
+    <div class="inline field required" ng-class="{error: registerForm.username.$dirty && registerForm.username.$invalid}">
+      <label for="id_username">用户名:</label>
+      <div class="ui input icon">
+        <input
+          type="text"
+          id="id_username"
+          name="username"
+          ng-model="user.username"
+          required
+          ng-minlength="3"
+          ng-maxlength="10"
+        />
+        <i class="icon checkmark" ng-show="registerForm.username.$dirty && registerForm.username.$valid"></i>
+      </div>
+      <div></div>
+    </div>
+    <div class="inline field required" ng-class="{error: registerForm.password1.$dirty && registerForm.password1.$invalid}">
+      <label for="id_password1">请输入密码:</label>
+      <div class="ui input icon">
+        <input
+          value="123"
+          type="password"
+          id="id_password1"
+          name="password1"
+          ng-model="user.password1"
+          required
+          ng-minlength="5"
+        />
+        <i class="icon checkmark" ng-show="registerForm.password1.$dirty && registerForm.password1.$valid"></i>
+      </div>
+    </div>
+    <div class="inline field required" ng-class="{error: registerForm.password2.$dirty && registerForm.password2.$invalid}">
+      <label for="id_password2">请确认密码:</label>
+      <div class="ui input icon">
+        <input
+          type="password"
+          id="id_password2"
+          name="password2"
+          ng-model="user.password2"
+          ng-minlength="5"
+          password-verify
+          required
+        />
+        <i class="icon checkmark" ng-show="registerForm.password2.$dirty && registerForm.password2.$valid"></i>
+      </div>
+    </div>
+    <span ng-show="registerForm.password2.$error.noMath">no math</span>
+    <div class="inline field required" ng-class="{error: registerForm.email.$dirty && registerForm.email.$invalid}">
+      <label for="id_email">电子邮箱:</label>
+      <div class="ui input icon">
+        <input
+          type="email"
+          id="id_email"
+          name="email"
+          ng-model="user.email"
+          required
+        />
+        <i class="icon checkmark" ng-show="registerForm.email.$dirty && registerForm.email.$valid"></i>
+      </div>
+    </div>
+    <button type="submit" class="ui primary button" ng-class="{disabled: registerForm.$invalid}">{% trans '注册' %}</button>
   </form>
 </body>
 </html>

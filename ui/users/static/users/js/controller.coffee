@@ -1,8 +1,19 @@
 registerApp = angular.module('registerApp', [])
 registerApp.controller('registerCtrl',  ($scope) ->
-  $scope.submitForm = (isValid) ->
-    if isValid ?
-      123
+  $scope.submitRegisterForm = ->
+    if $scope.registerForm.$valid
+      console.log 3333
     else
-      555
+      console.log 555
+)
+
+registerApp.directive('passwordVerify', ->
+  return {
+    require: 'ngModel'
+    link: (scope, elem, attrs, ctrl) ->
+      ctrl.$parsers.unshift((viewValue, $scope) ->
+        noMath = viewValue is scope.registerForm.password1.$viewValue
+        ctrl.$setValidity('noMath', noMath)
+      )
+  }
 )

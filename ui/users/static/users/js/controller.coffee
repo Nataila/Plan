@@ -1,10 +1,19 @@
-registerApp = angular.module('registerApp', [])
-registerApp.controller('registerCtrl',  ($scope) ->
+registerApp = angular.module('registerApp', []).config(($httpProvider) ->
+  $httpProvider.defaults.xsrfCookieName = 'csrftoken'
+  $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken'
+  return
+)
+registerApp.controller('registerCtrl',  ($scope, $http) ->
   $scope.submitRegisterForm = ->
     if $scope.registerForm.$valid
-      console.log 3333
+      console.log $scope.user
+      $http({
+        method: 'POST'
+        url: '.'
+        data: $scope.user
+      })
     else
-      console.log 555
+      console.log 3333
 )
 
 registerApp.directive('passwordVerify', ->

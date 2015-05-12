@@ -15,8 +15,7 @@ def home(request, template):
 def register(request, template):
     """ 注册 """
     if request.method == 'POST':
-        name = request.POST
-        print name
+        print request
     userForm = UserAddForm()
     content = {
         'request': request,

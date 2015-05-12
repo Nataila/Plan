@@ -12,7 +12,7 @@
   <script type='text/javascript' src="{% static 'users/js/controller.js' %}"></script>
 </head>
 <body ng-app="registerApp" ng-controller="registerCtrl">
-  <form class="ui form" method="POST" name="registerForm" ng-submit="submitRegisterForm()" novalidate>
+<form class="ui form" method="POST" name="registerForm" ng-submit="submitRegisterForm()" ng-init="csrf={{ csrf_token }}" novalidate>
     {% csrf_token %}
     <div class="inline field" ng-class="{error: registerForm.username.$dirty && registerForm.username.$invalid}">
       <label for="id_username">用户名:</label>
@@ -45,7 +45,6 @@
           ng-model="user.password1"
           required
           ng-minlength="5"
-          ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/"
         />
         <i class="icon checkmark" ng-show="registerForm.password1.$dirty && registerForm.password1.$valid"></i>
         <div class="ui corner label">

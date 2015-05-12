@@ -14,6 +14,7 @@ registerApp.directive('passwordVerify', ->
       ctrl.$parsers.unshift((viewValue, $scope) ->
         noMath = viewValue is scope.registerForm.password1.$viewValue
         ctrl.$setValidity('noMath', noMath)
+        return viewValue
       )
   }
 )

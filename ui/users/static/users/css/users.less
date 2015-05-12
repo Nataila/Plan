@@ -1,3 +1,21 @@
-tr + tr {
-  padding: 10px;
+body {
+  font-family: Microsoft YaHei;
+  form[name="registerForm"] {
+    #username-content {
+      margin-left: 25px;
+    }
+    #email-content {
+      margin-left: 14px;
+    }
+    .ui.icon.input > i.icon {
+      right: 20px;
+      color: #03B203;
+    }
+    .error-msg {
+      color: red;
+      margin: 5px 0 0 10px;
+      font-size: 10px;
+      &:before {content: '*'}
+    }
+  }
 }

@@ -7,11 +7,12 @@ registerApp.controller('registerCtrl',  ($scope, $http) ->
   $scope.submitRegisterForm = ->
     if $scope.registerForm.$valid
       console.log $scope.user
-      $http({
+      $http(
         method: 'POST'
         url: '.'
         data: $scope.user
-      })
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      )
     else
       console.log 3333
 )

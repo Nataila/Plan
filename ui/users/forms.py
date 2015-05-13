@@ -11,7 +11,6 @@ class UserAddForm(forms.Form):
     password2 = forms.CharField(label=u'请确认密码', max_length=100)
     email = forms.EmailField(label=u'电子邮箱')
 
-
     def save(self):
         user = User.objects.create_user(
             self.cleaned_data['username'].strip.lower(),

@@ -15,11 +15,12 @@ def home(request, template):
 def register(request, template):
     """ 注册 """
     if request.method == 'POST':
-        print request
-    userForm = UserAddForm()
+        print request.POST
+        userform = UserAddForm(request.POST)
+        if userform.is_valid():
+            print 200
+            userform.save()
     content = {
         'request': request,
-        'userForm': userForm,
-        'stat': 200,
     }
     return TemplateResponse(request, template, content)

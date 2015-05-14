@@ -4,6 +4,8 @@
 
 from django.template.response import TemplateResponse
 from forms import UserAddForm
+import json
+
 def home(request, template):
     """ 首页 """
     content = {
@@ -15,10 +17,9 @@ def home(request, template):
 def register(request, template):
     """ 注册 """
     if request.method == 'POST':
-        print request.POST
-        userform = UserAddForm(request.POST)
+        userinfo = json.loads(request.body)
+        userform = UserAddForm(userinfo)
         if userform.is_valid():
-            print 200
             userform.save()
     content = {
         'request': request,

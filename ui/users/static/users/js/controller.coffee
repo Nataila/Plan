@@ -11,7 +11,6 @@ registerApp.controller('registerCtrl',  ($scope, $http) ->
         method: 'POST'
         url: '.'
         data: $scope.user
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       )
     else
       console.log 3333

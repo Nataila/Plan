@@ -1,8 +1,16 @@
-registerApp = angular.module('registerApp', []).config(($httpProvider) ->
+registerApp = angular.module('registerApp', ['ngRoute'])
+registerApp.config(($httpProvider, $interpolateProvider) ->
+  $interpolateProvider.startSymbol('[[').endSymbol(']]')
   $httpProvider.defaults.xsrfCookieName = 'csrftoken'
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken'
   return
 )
+registerApp.config(['$routeProvider', ($routeProvider)->
+  $routeProvider.when '/ss',
+    template: "<div>hello</div>"
+    controller: "LoginCtr"
+  return
+])
 registerApp.controller('registerCtrl',  ($scope, $http) ->
   $scope.checkPasswd = ->
     $scope.repeat = true
@@ -17,7 +25,7 @@ registerApp.controller('registerCtrl',  ($scope, $http) ->
       )
       promise.success((data, status, headers, ocnfig) ->
         if data.status is 200
-          console 'ok'
+          console.log 'ok'
         return
       )
     else

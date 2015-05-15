@@ -7,89 +7,93 @@
   <title>{% trans '注册' %}</title>
   <link rel="stylesheet" href="{% static 'libs/css/semantic.css' %}">
   <link rel="stylesheet/less" type="text/css" href="{% static 'users/css/users.less' %}" />
+  <script type='text/javascript' src="{% static 'libs/js/jquery-1.11.3.js' %}"></script>
   <script type='text/javascript' src="{% static 'libs/less/less-1.3.3.min.js' %}"></script>
   <script type='text/javascript' src="{% static 'libs/js/angular.js' %}"></script>
   <script type='text/javascript' src="{% static 'users/js/controller.js' %}"></script>
+  <script type='text/javascript' src="{% static 'libs/js/semantic.js' %}"></script>
 </head>
-<body ng-app="registerApp" ng-controller="registerCtrl">
-<form class="ui form" method="POST" name="registerForm" ng-submit="submitRegisterForm()" novalidate>
-    {% csrf_token %}
-    <div class="inline field" ng-class="{error: registerForm.username.$dirty && registerForm.username.$invalid}">
-      <label for="id_username">用户名:</label>
-      <div class="ui input icon" id="username-content">
-        <input
-          type="text"
-          id="id_username"
-          name="username"
-          ng-model="user.username"
-          required
-          ng-minlength="3"
-          ng-maxlength="10"
-          ng-pattern="/^[A-z][A-z0-9]*$/"
-        />
-        <div class="ui corner label">
-          <i class="asterisk icon"></i>
+<body ng-app="registerApp" ng-controller="registerCtrl" ng-init="repeat=false">
+  <div class="register-content">
+    <h2 class="ui center aligned icon header">
+      <i class="circular add user icon"></i>
+      {% trans '用户注册' %}
+    </h2>
+    <form class="ui form" name="registerForm" ng-submit="submitRegisterForm()" novalidate>
+      <div class="field" ng-class="{error: registerForm.username.$dirty && registerForm.username.$invalid}">
+        <div class="ui left icon input" id="username-content">
+          <input
+            type="text"
+            id="id_username"
+            name="username"
+            ng-model="user.username"
+            required
+            ng-minlength="3"
+            ng-maxlength="10"
+            ng-pattern="/^[A-z][A-z0-9]*$/"
+            ng-blur="checkPasswd()"
+          />
+          <i class="user icon"></i>
+          <div class="ui corner label" ng-show="registerForm.username.$dirty && registerForm.username.$valid">
+            <i class="checkmark icon"></i>
+          </div>
         </div>
-        <i class="icon checkmark" ng-show="registerForm.username.$dirty && registerForm.username.$valid"></i>
+        <div class="error-msg" ng-show="registerForm.username.$dirty && registerForm.username.$invalid ">{% trans '必须以字母开头，且长度大于3位小于10位' %}</div>
       </div>
-      <div class="error-msg" ng-show="registerForm.username.$dirty && registerForm.username.$invalid ">{% trans '必须以字母开头，且长度大于3位小于10位' %}</div>
-    </div>
-    <div class="inline field" ng-class="{error: registerForm.password1.$dirty && registerForm.password1.$invalid}">
-      <label for="id_password1">请输入密码:</label>
-      <div class="ui input icon">
-        <input
-          value="123"
-          type="password"
-          id="id_password1"
-          name="password1"
-          ng-model="user.password1"
-          required
-          ng-minlength="5"
-        />
-        <i class="icon checkmark" ng-show="registerForm.password1.$dirty && registerForm.password1.$valid"></i>
-        <div class="ui corner label">
-          <i class="asterisk icon"></i>
+      <div class="field" ng-class="{error: registerForm.password1.$dirty && registerForm.password1.$invalid}">
+        <div class="ui left icon input">
+          <input
+            value="123"
+            type="password"
+            id="id_password1"
+            name="password1"
+            ng-model="user.password1"
+            required
+            ng-minlength="5"
+          />
+          <i class="icon lock"></i>
+          <div class="ui corner label" ng-show="registerForm.password1.$dirty && registerForm.password1.$valid">
+            <i class="checkmark icon"></i>
+          </div>
         </div>
+        <div class="error-msg" ng-show="registerForm.password1.$dirty && registerForm.password1.$invalid">{% trans "必填项，长度大于5，必须包含数字字母" %}</div>
       </div>
-      <div class="error-msg" ng-show="registerForm.password1.$dirty && registerForm.password1.$invalid">{% trans "必填项，长度大于5，必须包含数字字母" %}</div>
-    </div>
-    <div class="inline field" ng-class="{error: registerForm.password2.$dirty && registerForm.password2.$invalid}">
-      <label for="id_password2">请确认密码:</label>
-      <div class="ui input icon">
-        <input
-          type="password"
-          id="id_password2"
-          name="password2"
-          ng-model="user.password2"
-          ng-minlength="5"
-          password-verify
-          required
-        />
-        <i class="icon checkmark" ng-show="registerForm.password2.$dirty && registerForm.password2.$valid"></i>
-        <div class="ui corner label">
-          <i class="asterisk icon"></i>
+      <div class="field" ng-class="{error: registerForm.password2.$dirty && registerForm.password2.$invalid}">
+        <div class="ui left icon input">
+          <input
+            type="password"
+            id="id_password2"
+            name="password2"
+            ng-model="user.password2"
+            ng-minlength="5"
+            password-verify
+            required
+          />
+          <i class="icon lock"></i>
+          <div class="ui corner label" ng-show="registerForm.password2.$dirty && registerForm.password2.$valid">
+            <i class="checkmark icon"></i>
+          </div>
         </div>
+        <div class="error-msg" ng-show="registerForm.password2.$error.noMath">{% trans "两次输入密码不一致" %}</div>
       </div>
-      <div class="error-msg" ng-show="registerForm.password2.$error.noMath">{% trans "两次输入密码不一致" %}</div>
-    </div>
-    <div class="inline field" ng-class="{error: registerForm.email.$dirty && registerForm.email.$invalid}">
-      <label for="id_email">电子邮箱:</label>
-      <div class="ui icon input" id="email-content">
-        <input
-          type="email"
-          id="id_email"
-          name="email"
-          ng-model="user.email"
-          required
-        />
-        <i class="icon checkmark" ng-show="registerForm.email.$dirty && registerForm.email.$valid"></i>
-        <div class="ui corner label">
-          <i class="asterisk icon"></i>
-        </div>
-        <div class="error-msg" ng-show="registerForm.email.$dirty && registerForm.email.$invalid">{% trans "请输入正确的邮箱格式" %}</div>
+      <div class="field" ng-class="{error: registerForm.email.$dirty && registerForm.email.$invalid}">
+        <div class="ui left icon input" id="email-content">
+          <input
+            type="email"
+            id="id_email"
+            name="email"
+            ng-model="user.email"
+            required
+          />
+          <i class="icon mail"></i>
+          <div class="ui corner label" ng-show="registerForm.email.$dirty && registerForm.email.$valid">
+            <i class="checkmark icon"></i>
+          </div>
+          </div>
+          <div class="error-msg" ng-show="registerForm.email.$dirty && registerForm.email.$invalid">{% trans "请输入正确的邮箱格式" %}</div>
       </div>
-    </div>
-    <button type="submit" class="ui primary button" ng-class="{disabled: registerForm.$invalid}">{% trans '注册' %}</button>
-  </form>
+      <button type="submit" class="ui primary button fluid" ng-class="{disabled: registerForm.$invalid}">{% trans '注册' %}</button>
+    </form>
+  </div>
 </body>
 </html>

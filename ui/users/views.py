@@ -4,6 +4,7 @@
 
 from django.template.response import TemplateResponse
 from forms import UserAddForm
+from django.http import HttpResponse
 import json
 
 def home(request, template):
@@ -21,7 +22,12 @@ def register(request, template):
         userform = UserAddForm(userinfo)
         if userform.is_valid():
             userform.save()
+            return HttpResponse(json.dumps({'status': 200}))
     content = {
         'request': request,
     }
     return TemplateResponse(request, template, content)
+
+def valid_username(request):
+    """ 校验用户名是否已经存在 """
+    return HttpResponse({'name': 123123})

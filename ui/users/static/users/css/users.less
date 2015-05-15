@@ -1,21 +1,39 @@
+.padding (@top: 0, @right: 0, @bottom: 0, @left: 0) {
+  padding: @arguments;
+}
+
+.margin (@top: 0, @right: 0, @bottom: 0, @left: 0) {
+  margin: @arguments;
+}
+
+.border (@px, @color, @styles) {
+  border: @arguments;
+}
+
+.border-radius (@top: 0, @right: 0, @bottom: 0, @left: 0){
+  border-radius: @arguments;
+}
+
 body {
   font-family: Microsoft YaHei;
-  form[name="registerForm"] {
-    #username-content {
-      margin-left: 25px;
+  .register-content {
+    width: 600px;
+    height: 500px;
+    .margin(100px, auto, 0, auto);
+    background-color: #F5F5F5;
+    .padding(20px, 30px, 20px, 30px);
+    .border(1px, #e3e3e3, solid);
+    .border-radius(10px, 10px, 10px, 10px);
+    .corner > .checkmark {
+      color: green;
     }
-    #email-content {
-      margin-left: 14px;
-    }
-    .ui.icon.input > i.icon {
-      right: 20px;
-      color: #03B203;
-    }
-    .error-msg {
-      color: red;
-      margin: 5px 0 0 10px;
-      font-size: 10px;
-      &:before {content: '*'}
+    form[name="registerForm"] {
+      .error-msg {
+        color: red;
+        .margin(5px 0 0 10px);
+        font-size: 10px;
+        &:before {content: '*'}
+      }
     }
   }
 }

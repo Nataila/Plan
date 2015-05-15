@@ -4,16 +4,25 @@ registerApp = angular.module('registerApp', []).config(($httpProvider) ->
   return
 )
 registerApp.controller('registerCtrl',  ($scope, $http) ->
+  $scope.checkPasswd = ->
+    $scope.repeat = true
+    return
+
   $scope.submitRegisterForm = ->
     if $scope.registerForm.$valid
-      console.log $scope.user
-      $http(
+      promise = $http(
         method: 'POST'
         url: '.'
         data: $scope.user
       )
+      promise.success((data, status, headers, ocnfig) ->
+        if data.status is 200
+          console 'ok'
+        return
+      )
     else
       console.log 3333
+    return
 )
 
 registerApp.directive('passwordVerify', ->
@@ -27,3 +36,4 @@ registerApp.directive('passwordVerify', ->
       )
   }
 )
+

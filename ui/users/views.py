@@ -2,13 +2,25 @@
 # -*- coding: utf-8 -*-
 # Nataila @ 2015-05-08
 
-from django.template.response import TemplateResponse
-from forms import UserAddForm
-from django.http import HttpResponse
 import json
+
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.template.response import TemplateResponse
+from django.contrib.auth import authenticate, login
+
+from forms import UserAddForm
 
 def home(request, template):
     """ 首页 """
+    if request.method == 'POST':
+        print request.POST
+        username = request.POST.get('username', '')
+        passwd = request.POST.get('password', '')
+        user = authenticate(username=username, password=passwd)
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect('/todo')
     content = {
         'request': request,
         'stat': 200
@@ -19,6 +31,7 @@ def register(request, template):
     """ 注册 """
     if request.method == 'POST':
         userinfo = json.loads(request.body)
+        print userinfo
         userform = UserAddForm(userinfo)
         if userform.is_valid():
             userform.save()

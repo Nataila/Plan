@@ -23,9 +23,9 @@ registerApp.controller('registerCtrl',  ($scope, $http) ->
         url: '.'
         data: $scope.user
       )
-      promise.success((data, status, headers, ocnfig) ->
+      promise.success((data, status, headers, config) ->
         if data.status is 200
-          console.log 'ok'
+          window.location.href = '/accounts/login'
         return
       )
     else

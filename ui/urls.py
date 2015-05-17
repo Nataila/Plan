@@ -11,5 +11,6 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('users.urls')),
-    url(r'^$', RedirectView.as_view(url='/accounts/')),
+    url(r'^todo/', include('todo.urls')),
+    url(r'^$', RedirectView.as_view(url='/accounts/login')),
 )

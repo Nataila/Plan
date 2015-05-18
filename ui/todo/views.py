@@ -8,3 +8,15 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def index(request, template):
     return TemplateResponse(request, template, {"status": 200})
+
+@login_required
+def day(request, template):
+    return TemplateResponse(request, template, {"status": 200})
+@login_required
+def plan(request, template):
+    return TemplateResponse(request, template, {"status": 200})
+
+@login_required
+def report(request, template):
+    print 34
+    return TemplateResponse(request, template, {"status": 500})

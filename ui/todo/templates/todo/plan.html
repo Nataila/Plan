@@ -1,0 +1,53 @@
+{% load i18n %}
+<div class="ui inverted menu pointing main large">
+  <div class="nav-container">
+    <a class="active item" href="./#/plan">
+      <i class="eyedropper icon"></i>
+      {% trans '计划' %}
+    </a>
+    <a class="item" href="./#/report">
+      <i class="file text icon"></i>
+      {% trans '日/周/月报' %}
+    </a>
+  </div>
+</div>
+<div class="plan-main">
+  <div class="ui grid">
+    <div class="eleven wide column">
+      <div class="ui segment">
+        <li><a href="./#/day">day</a></li>
+        <li><a href="./#/week">week</a></li>
+      </div>
+    </div>
+    <div class="five wide column" ng-controller="todoCtrl">
+      <div class="ui segment">
+        <div ui-view></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="try">123</button>
+<div class="ui left vertical inverted labeled icon sidebar menu">
+  <a class="item" href="./#/day">
+    <i class="home icon"></i>
+    {% trans '日计划' %}
+  </a>
+  <a class="item" href="./#/week">
+    <i class="block layout icon"></i>
+    {% trans '周计划' %}
+  </a>
+  <a class="item">
+    <i class="smile icon"></i>
+    {% trans '月计划' %}
+  </a>
+</div>
+
+<script>
+$('.try').on('click', function(){
+    $('.left.sidebar').sidebar({
+      dimPage: false,
+      closable: false,
+      }).sidebar('toggle');
+})
+</script>

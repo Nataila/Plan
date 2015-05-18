@@ -1,10 +1,65 @@
 <!DOCTYPE html>
+{% load staticfiles %}
+{% load i18n %}
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title></title>
+  <link rel="stylesheet" href="{% static 'libs/css/semantic.css' %}">
+  <link rel="stylesheet/less" href="{% static 'todo/css/todo.less' %}">
+  <script type='text/javascript' src="{% static 'libs/js/jquery-1.11.3.js' %}"></script>
+  <script type='text/javascript' src="{% static 'libs/less/less-1.3.3.min.js' %}"></script>
+  <script type='text/javascript' src="{% static 'libs/js/angular.js' %}"></script>
+  <script type='text/javascript' src="{% static 'libs/js/angular-route.js' %}"></script>
+  <script type='text/javascript' src="{% static 'libs/js/semantic.js' %}"></script>
+  <script type='text/javascript' src="{% static 'todo/js/todo-controller.js' %}"></script>
 </head>
 <body>
-  success
+<div class="ui inverted menu pointing main large">
+<div class="nav-container">
+  <a class="active item">
+    <i class="eyedropper icon"></i>
+    {% trans '计划' %}
+  </a>
+  <a class="item">
+    <i class="file text icon"></i>
+    {% trans '日/周/月报' %}
+  </a>
+</div>
+</div>
+<button class="try">123</button>
+<div class="ui left vertical inverted labeled icon sidebar menu side out">
+  <a class="item">
+    <i class="home icon"></i>
+    {% trans '日计划' %}
+  </a>
+  <a class="item">
+    <i class="block layout icon"></i>
+    {% trans '周计划' %}
+  </a>
+  <a class="item">
+    <i class="smile icon"></i>
+    {% trans '月计划' %}
+  </a>
+</div>
+<div class="plan-main">
+  <div class="ui grid">
+    <div class="eleven wide column">
+      <div class="ui segment">
+        sdlfkj
+      </div>
+    </div>
+    <div class="five wide column" ng-app="todoApp" ng-controller="todoCtrl">
+      <div class="ui segment">
+        <div ng-view> </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$('.try').on('click', function(){
+  $('.left.sidebar').sidebar('toggle');
+})
+</script>
 </body>
 </html>

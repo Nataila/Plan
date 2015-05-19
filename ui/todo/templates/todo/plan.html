@@ -11,43 +11,22 @@
     </a>
   </div>
 </div>
+
 <div class="plan-main">
-  <div class="ui grid">
-    <div class="eleven wide column">
-      <div class="ui segment">
-        <li><a href="./#/day">day</a></li>
-        <li><a href="./#/week">week</a></li>
-      </div>
-    </div>
-    <div class="five wide column" ng-controller="todoCtrl">
-      <div class="ui segment">
-        <div ui-view></div>
-      </div>
-    </div>
-  </div>
+  <div ui-view></div>
 </div>
 
-<button class="try">123</button>
-<div class="ui left vertical inverted labeled icon sidebar menu">
-  <a class="item" href="./#/day">
+<div class="ui left vertical visible inverted labeled icon sidebar menu">
+  <a class="item" ui-sref=".day">
     <i class="home icon"></i>
     {% trans '日计划' %}
   </a>
-  <a class="item" href="./#/week">
+  <a class="item" ui-sref=".week">
     <i class="block layout icon"></i>
     {% trans '周计划' %}
   </a>
-  <a class="item">
+  <a class="item" ui-sref=".month">
     <i class="smile icon"></i>
     {% trans '月计划' %}
   </a>
 </div>
-
-<script>
-$('.try').on('click', function(){
-    $('.left.sidebar').sidebar({
-      dimPage: false,
-      closable: false,
-      }).sidebar('toggle');
-})
-</script>

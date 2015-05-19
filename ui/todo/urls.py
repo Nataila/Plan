@@ -9,4 +9,7 @@ urlpatterns = patterns('',
     url(r'^day.html$', 'todo.views.day', {'template': 'todo/day.html'}),
     url(r'^plan.html$', 'todo.views.plan', {'template': 'todo/plan.html'}),
     url(r'^report.html$', 'todo.views.report', {'template': 'todo/report.html'}),
+    url(r'^plan/day$', 'todo.views.day', {'template': 'todo/plan-day.html'}),
+    url(r'^plan/week$', 'todo.views.week', {'template': 'todo/plan-week.html'}),
+    url(r'^plan/month$', 'todo.views.month', {'template': 'todo/plan-month.html'}),
 )

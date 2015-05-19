@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*_
 
-from django.shortcuts import render
 from django.template.response import TemplateResponse
 from django.contrib.auth.decorators import login_required
 
@@ -23,9 +22,8 @@ def month(request, template):
 
 @login_required
 def plan(request, template):
-    return TemplateResponse(request, template, {"status": 200})
+    return TemplateResponse(request, template, {"request": request, "status": 200})
 
 @login_required
 def report(request, template):
-    print 34
     return TemplateResponse(request, template, {"status": 500})

@@ -7,12 +7,14 @@ import json
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+
 
 from forms import UserAddForm
 
 def home(request, template):
     """ 首页 """
+
     if request.method == 'POST':
         print request.POST
         username = request.POST.get('username', '')
@@ -27,8 +29,10 @@ def home(request, template):
     }
     return TemplateResponse(request, template, content)
 
+
 def register(request, template):
     """ 注册 """
+
     if request.method == 'POST':
         userinfo = json.loads(request.body)
         print userinfo
@@ -41,6 +45,15 @@ def register(request, template):
     }
     return TemplateResponse(request, template, content)
 
+
 def valid_username(request):
     """ 校验用户名是否已经存在 """
+
     return HttpResponse({'name': 123123})
+
+
+def logout_views(request):
+    """ 登出 """
+
+    logout(request)
+    return HttpResponseRedirect('/accounts/login')

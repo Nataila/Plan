@@ -11,3 +11,4 @@ bin
 lib
 include
 .Python
+*.sqlite3

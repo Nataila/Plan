@@ -1,5 +1,5 @@
 {% load i18n %}
-<div class="ui inverted menu pointing main large">
+<div class="ui menu pointing main large">
   <div class="nav-container">
     <a class="active item" href="./#/plan">
       <i class="eyedropper icon"></i>
@@ -9,14 +9,45 @@
       <i class="file text icon"></i>
       {% trans '日/周/月报' %}
     </a>
+    <div class="ui icon right dropdown item">
+      <i class="user icon"></i>
+      {{ request.user  }}
+      <i class="icon dropdown"></i>
+      <div class="menu">
+        <a class="item"><i class="settings icon"></i>{% trans '设置' %}</a>
+        <a class="item"><i class="idea icon"></i>{% trans '帮助' %}</a>
+        <a class="item" href="{% url 'logout' %}"><i class="sign out icon"></i>{% trans '退出' %}</a>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="plan-main">
-  <div ui-view></div>
+  <div class="ui grid">
+    <div class="eleven wide column">
+      <div class="ui form">
+        <div class="ui fluid action input">
+          <input type="text" placeholder="add new plan">
+          <div class="ui primary button icon">
+            <i class="plus icon"></i>
+            ADD
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="eleven wide column">
+      <div class="ui segment">
+        <div ui-view></div>
+      </div>
+    </div>
+    <div class="five wide column">
+      <div class="ui segment">
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="ui left vertical visible inverted labeled icon sidebar menu">
+<div class="ui left vertical visible labeled icon sidebar menu">
   <a class="item" ui-sref=".day">
     <i class="home icon"></i>
     {% trans '日计划' %}
@@ -30,3 +61,6 @@
     {% trans '月计划' %}
   </a>
 </div>
+<script>
+  $('.ui.dropdown').dropdown();
+</script>

@@ -66,6 +66,7 @@ todoApp.controller 'DayCtrl', ($scope, $http) ->
 
 todoApp.directive('todoCheckbox', ->
   return {
+    terminal: true
     restrict: 'A'
     link: (scope, elem, attrs) ->
       elem.checkbox()

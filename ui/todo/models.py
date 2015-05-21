@@ -8,17 +8,17 @@ from django.contrib.auth.models import User
 class Todo(models.Model):
     """ TODO LIST """
     TODO_TYPE = (
-        ('day', 'day'),
-        ('week', 'week'),
-        ('month', 'month')
+        (0, 'day'),
+        (1, 'week'),
+        (2, 'month')
     )
 
-    user = models.OneToOneField(User, unique=True)
+    user = models.ForeignKey(User)
     content = models.CharField(max_length=500, unique=True)
     status = models.IntegerField()  # 完成状态，完成为1，未完成为0
     created_at = models.TimeField(auto_now=True)
-    type = models.CharField(max_length=20, choices=TODO_TYPE, default='day')
+    type = models.CharField(max_length=20, choices=TODO_TYPE, default=0)
 
     class Meta:
-        db_table = "Todo"
+        db_table = "todo"
         ordering = ['created_at']

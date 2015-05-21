@@ -12,4 +12,6 @@ urlpatterns = patterns('',
     url(r'^plan/day$', 'todo.views.day', {'template': 'todo/plan-day.html'}),
     url(r'^plan/week$', 'todo.views.week', {'template': 'todo/plan-week.html'}),
     url(r'^plan/month$', 'todo.views.month', {'template': 'todo/plan-month.html'}),
+    url(r'^save$', 'todo.views.save'),
+    url(r'^get_default_data$', 'todo.views.get_default_data'),
 )

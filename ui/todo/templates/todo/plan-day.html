@@ -1,1 +1,36 @@
-plan-day
+<div class="plan-main">
+  <div class="ui grid">
+    <div class="eleven wide column">
+      <div class="ui form">
+        <div class="ui fluid action input">
+          <input type="text" placeholder="add new plan" ng-model='pushData'>
+          <div class="ui primary button icon" ng-click="send()">
+            <i class="plus icon"></i>
+            ADD
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="eleven wide column">
+      <div class="ui segment">
+        <div class="ui animate list">
+          <div class="item ui toggle checkbox" todo-checkbox ng-repeat="item in day track by $index">
+            <input type="checkbox">
+            <label ng-bind="item.content"></label>
+          </div>
+        </div>
+        <!--
+      <div class="ui animate list">
+        <div class="item ui toggle checkbox" todo-checkbox>
+          <input type="checkbox" ng-change="changeStatus">
+          <label>222</label>
+        </div>
+      </div>
+        -->
+    </div>
+    <div class="five wide column">
+      <div class="ui segment">
+      </div>
+    </div>
+  </div>
+</div>

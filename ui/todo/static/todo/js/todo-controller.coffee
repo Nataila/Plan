@@ -1,5 +1,13 @@
 "use strict"
-todoApp = angular.module 'todoApp', ['ui.router']
+
+angular.module 'todoApp.services', []
+  .factory('TodoService', ($http) ->
+    return {
+      send: (url, par) ->
+        $http.get(url, params: par)
+    }
+  )
+todoApp = angular.module 'todoApp', ['ui.router', 'todoApp.services']
 
 todoApp.config(($httpProvider, $interpolateProvider) ->
   $interpolateProvider.startSymbol('[[').endSymbol(']]')
@@ -34,7 +42,7 @@ todoApp.config ($stateProvider, $urlRouterProvider) ->
   }
   return
 
-todoApp.controller 'todoCtrl', ($scope) ->
+todoApp.controller 'todoCtrl', ($scope, TodoService) ->
   $('.try').on 'click', ->
     $('.left.sidebar').sidebar({
       dimPage: false
@@ -42,12 +50,12 @@ todoApp.controller 'todoCtrl', ($scope) ->
    }).sidebar 'toggle'
     return
 
-todoApp.controller 'DayCtrl', ($scope, $http) ->
-  $http.get('get_default_data', params: {'type': 'day'}).success((data) ->
+todoApp.controller 'DayCtrl', ($scope, $http, TodoService) ->
+  TodoService.send('get_default_data', {'type': 'day'}).success((data) ->
     $scope.day = data
   )
   $scope.statusChange = (sid, status)->
-    $http.get('change_status', params: {'sid': sid, 'status': status}).success(->
+    TodoService.send('change_status', {'sid': sid, 'status': status}).success(->
       angular.forEach($scope.day, (item) ->
         if item.id is sid
           item.status = status
@@ -55,7 +63,7 @@ todoApp.controller 'DayCtrl', ($scope, $http) ->
       )
     )
   $scope.delete = (event, sid) ->
-    $http.get('delete', params: {'sid': sid}).success((data) ->
+    TodoService.send('delete', {'sid': sid}).success((data) ->
       angular.forEach($scope.day, (item) ->
         if item.id is sid
           item['ishide'] = true
@@ -67,7 +75,7 @@ todoApp.controller 'DayCtrl', ($scope, $http) ->
       'content' : $scope.pushData,
       'type': 'day'
     }
-    $http.post('save', sendData).success( (data)->
+    TodoService.send('save', sendData).success( (data)->
       $scope.day.push({
         id: data.id
         content: $scope.pushData

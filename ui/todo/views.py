@@ -37,8 +37,7 @@ def report(request, template):
 @login_required
 def save(request):
     """ 储存todo """
-    if request.method == "POST":
-        params = json.loads(request.body)
+    if request.method == "GET":
         todo = Todo(
           user=request.user,
           content=params['content'],
@@ -57,6 +56,7 @@ def save(request):
 def get_default_data(request):
     """ 获取初始展示的数据 """
 
+    print request.GET
     type = request.GET.get('type')
     if type:
         todo_list = Todo.objects.filter(type=type).values()

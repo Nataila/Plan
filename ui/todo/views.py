@@ -38,6 +38,7 @@ def report(request, template):
 def save(request):
     """ 储存todo """
     if request.method == "GET":
+        params = request.GET
         todo = Todo(
           user=request.user,
           content=params['content'],

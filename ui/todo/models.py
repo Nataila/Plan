@@ -15,10 +15,10 @@ class Todo(models.Model):
 
     user = models.ForeignKey(User)
     content = models.CharField(max_length=500, unique=True)
-    status = models.IntegerField()  # 完成状态，完成为1，未完成为0
+    status = models.BooleanField(default=False)  # 完成状态，完成为True，未完成为False
     created_at = models.TimeField(auto_now=True)
     type = models.CharField(max_length=20, choices=TODO_TYPE, default=0)
 
     class Meta:
         db_table = "todo"
-        ordering = ['created_at']
+        ordering = ['-created_at']

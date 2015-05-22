@@ -3,7 +3,7 @@
     <div class="eleven wide column">
       <div class="ui form">
         <div class="ui fluid action input">
-          <input type="text" placeholder="add new plan" ng-model='pushData'>
+          <input type="text" placeholder="add new plan" ng-model='pushData' required>
           <div class="ui primary button icon" ng-click="send()">
             <i class="plus icon"></i>
             ADD
@@ -13,20 +13,24 @@
     </div>
     <div class="eleven wide column">
       <div class="ui segment">
-        <div class="ui animate list">
-          <div class="item ui toggle checkbox" todo-checkbox ng-repeat="item in day">
-            <input type="checkbox">
-            <label ng-bind="item.content"></label>
+      <div class="ui divided list">
+        <div class="item" ng-repeat="item in day track by $index" ng-hide="item.ishide">
+          <div class="right floated compact ui red label del-label" ng-click="delete($event, item.id)">
+            <i class="remove icon"></i> 删除
           </div>
-        </div>
-        <!--
-      <div class="ui animate list">
-        <div class="item ui toggle checkbox" todo-checkbox>
-          <input type="checkbox" ng-change="changeStatus">
-          <label>222</label>
+          <div class="right floated compact ui blue label">
+            <i class="wait icon"></i><span ng-bind="item.time"></span>
+          </div>
+          <input
+            type="checkbox"
+            ng-model="checkboxStatus"
+            ng-change="statusChange(item.id, checkboxStatus)"
+            ng-checked="item.status"
+          >
+          <label ng-bind="item.content" ng-class="{done: item.status}"></label>
         </div>
       </div>
-        -->
+      </div>
     </div>
     <div class="five wide column">
       <div class="ui segment">

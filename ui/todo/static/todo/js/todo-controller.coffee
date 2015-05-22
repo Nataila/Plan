@@ -46,30 +46,37 @@ todoApp.controller 'DayCtrl', ($scope, $http) ->
   $http.get('get_default_data', params: {'type': 'day'}).success((data) ->
     $scope.day = data
   )
-  $scope.day = [1,2,3]
+  $scope.statusChange = (sid, status)->
+    $http.get('change_status', params: {'sid': sid, 'status': status}).success(->
+      angular.forEach($scope.day, (item) ->
+        if item.id is sid
+          item.status = status
+        return
+      )
+    )
+  $scope.delete = (event, sid) ->
+    $http.get('delete', params: {'sid': sid}).success((data) ->
+      angular.forEach($scope.day, (item) ->
+        if item.id is sid
+          item['ishide'] = true
+        return
+      )
+    )
   $scope.send = () ->
     sendData = {
       'content' : $scope.pushData,
       'type': 'day'
     }
-    $http.post('save', sendData).success(->
+    $http.post('save', sendData).success( (data)->
       $scope.day.push({
+        id: data.id
         content: $scope.pushData
-        status: 0
+        status: false
         type: 'day'
-        time: '1900-01-01 07:43:20'
+        time: data.time
       })
       $scope.pushData = ''
       return
     )
   return
 
-todoApp.directive('todoCheckbox', ->
-  return {
-    terminal: true
-    restrict: 'A'
-    link: (scope, elem, attrs) ->
-      elem.checkbox()
-      return
-  }
-)

@@ -36,16 +36,23 @@ def report(request, template):
 
 @login_required
 def save(request):
+    """ 储存todo """
     if request.method == "POST":
         params = json.loads(request.body)
         todo = Todo(
-          user = request.user,
-          content = params['content'],
-          type = params['type'],
-          status = 0,
+          user=request.user,
+          content=params['content'],
+          type=params['type'],
+          status=False,
         )
         todo.save()
-    return HttpResponse({'status': 200})
+    last_data = Todo.objects.all()[0]
+    content = {
+        'status': 200,
+        'id': last_data.id,
+        'time': last_data.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        }
+    return HttpResponse(json.dumps(content))
 
 def get_default_data(request):
     """ 获取初始展示的数据 """
@@ -59,9 +66,31 @@ def _parse_data(data):
     result_data = []
     for i in data:
         result_data.append({
+            'id': i['id'],
             'content': i['content'],
             'type': i['type'],
             'status': i['status'],
             'time': i['created_at'].strftime("%Y-%m-%d %H:%M:%S")
         })
     return result_data
+
+def change_status(request):
+    """ 更改条目状态 """
+
+    sid = int(request.GET.get('sid', ''))
+    status = request.GET.get('status', False)
+    if status == 'true':
+        status = True
+    else:
+        status = False
+    todo_data = Todo.objects.get(id=sid)
+    todo_data.status = status
+    todo_data.save()
+    return HttpResponse({'status': 200})
+
+def delete(request):
+    """ 删除条目 """
+    sid = int(request.GET.get('sid', ''))
+    data = Todo.objects.get(id=sid)
+    data.delete()
+    return HttpResponse(json.dumps({'status': 200}))

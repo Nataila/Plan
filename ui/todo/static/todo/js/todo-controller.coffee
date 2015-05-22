@@ -5,8 +5,25 @@ angular.module 'todoApp.services', []
     return {
       send: (url, par) ->
         $http.get(url, params: par)
+        return
+
+      get_default_data: (url, par) ->
+        this.send(url, par).success((data) ->
+          $scope.day = data
+          return
+        )
+
+      change_status: (url, par, sid) ->
+        this.send(url,par).success(->
+          angular.forEach($scope.day, (item) ->
+            if item.id is sid
+              item.status = status
+            return
+        )
+      )
     }
   )
+
 todoApp = angular.module 'todoApp', ['ui.router', 'todoApp.services']
 
 todoApp.config(($httpProvider, $interpolateProvider) ->
@@ -51,17 +68,10 @@ todoApp.controller 'todoCtrl', ($scope, TodoService) ->
     return
 
 todoApp.controller 'DayCtrl', ($scope, $http, TodoService) ->
-  TodoService.send('get_default_data', {'type': 'day'}).success((data) ->
-    $scope.day = data
-  )
+  TodoService.get_default_data('get_default_data', {'type': 'day'})
   $scope.statusChange = (sid, status)->
-    TodoService.send('change_status', {'sid': sid, 'status': status}).success(->
-      angular.forEach($scope.day, (item) ->
-        if item.id is sid
-          item.status = status
-        return
-      )
-    )
+    TodoService.change_status('change_status', {'sid': sid, 'status': status})
+    return
   $scope.delete = (event, sid) ->
     TodoService.send('delete', {'sid': sid}).success((data) ->
       angular.forEach($scope.day, (item) ->

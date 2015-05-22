@@ -15,7 +15,7 @@
       <div class="ui segment">
       <div class="ui divided list">
         <div class="item" ng-repeat="item in day track by $index" ng-hide="item.ishide">
-          <div class="right floated compact ui red label del-label" ng-click="delete($event, item.id)">
+          <div class="right floated compact ui red label del-label" ng-click="delete(item.id)">
             <i class="remove icon"></i> 删除
           </div>
           <div class="right floated compact ui blue label">

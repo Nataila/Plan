@@ -20,8 +20,33 @@ angular.module 'todoApp.services', []
               item.status = par.status
             console.log $scope.day
             return
+          )
+          return
         )
-      )
+        return
+
+      del: ($scope, url, par, type) ->
+        this.send(url, par).success((data) ->
+          angular.forEach($scope[type], (item) ->
+            if item.id is par.sid
+              item['ishide'] = true
+            return
+          )
+          return
+        )
+        return
+
+      save: ($scope, url, par) ->
+        this.send(url, par).success((data) ->
+          $scope.day.unshift
+            id: data.id
+            content: par.content
+            status: false
+            type: par.type
+            time: data.time
+          return
+        )
+        return
     }
   )
 
@@ -75,28 +100,14 @@ todoApp.controller 'DayCtrl', ($scope, $http, TodoService) ->
     return
 
   $scope.delete = (sid) ->
-    TodoService.send('delete', {'sid': sid}).success((data) ->
-      angular.forEach($scope.day, (item) ->
-        if item.id is sid
-          item['ishide'] = true
-        return
-      )
-    )
+    TodoService.del($scope, 'delete', {'sid': sid}, 'day')
+
   $scope.send = () ->
     sendData = {
-      'content' : $scope.pushData,
+      'content' : $scope.pushData
       'type': 'day'
     }
-    TodoService.send('save', sendData).success( (data)->
-      $scope.day.unshift({
-        id: data.id
-        content: $scope.pushData
-        status: false
-        type: 'day'
-        time: data.time
-      })
-      $scope.pushData = ''
-      return
-    )
+    TodoService.save($scope, 'save', sendData)
+    return
   return
 

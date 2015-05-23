@@ -88,7 +88,7 @@ todoApp.controller 'DayCtrl', ($scope, $http, TodoService) ->
       'type': 'day'
     }
     TodoService.send('save', sendData).success( (data)->
-      $scope.day.push({
+      $scope.day.unshift({
         id: data.id
         content: $scope.pushData
         status: false

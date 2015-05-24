@@ -15,16 +15,8 @@ def index(request, template):
     return TemplateResponse(request, template, {"status": 200})
 
 @login_required
-def day(request, template):
+def detail(request, template):
     return TemplateResponse(request, template, {})
-
-@login_required
-def week(request, template):
-    return TemplateResponse(request, template, {"status": 200})
-
-@login_required
-def month(request, template):
-    return TemplateResponse(request, template, {"status": 200})
 
 @login_required
 def plan(request, template):

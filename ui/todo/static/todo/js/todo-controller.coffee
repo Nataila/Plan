@@ -8,26 +8,25 @@ angular.module 'todoApp.services', []
 
       get_default_data: ($scope, url, par) ->
         this.send(url, par).success((data) ->
-          $scope.day = data
+          $scope.data = data
           return
         )
         return
 
       change_status: ($scope, url, par) ->
         this.send(url, par).success(->
-          angular.forEach($scope.day, (item) ->
+          angular.forEach($scope.data, (item) ->
             if item.id is par.sid
               item.status = par.status
-            console.log $scope.day
             return
           )
           return
         )
         return
 
-      del: ($scope, url, par, type) ->
+      del: ($scope, url, par) ->
         this.send(url, par).success((data) ->
-          angular.forEach($scope[type], (item) ->
+          angular.forEach($scope.data, (item) ->
             if item.id is par.sid
               item['ishide'] = true
             return
@@ -38,7 +37,7 @@ angular.module 'todoApp.services', []
 
       save: ($scope, url, par) ->
         this.send(url, par).success((data) ->
-          $scope.day.unshift
+          $scope.data.unshift
             id: data.id
             content: par.content
             status: false
@@ -68,16 +67,18 @@ todoApp.config ($stateProvider, $urlRouterProvider) ->
   }
   .state 'plan.day', {
     url: '/day'
-    templateUrl: 'plan/day'
+    templateUrl: 'plan/detail'
     controller: 'DayCtrl'
   }
   .state 'plan.week', {
     url: '/week'
-    templateUrl: 'plan/week'
+    templateUrl: 'plan/detail'
+    controller: 'WeekCtrl'
   }
   .state 'plan.month', {
     url: '/month'
-    templateUrl: 'plan/month'
+    templateUrl: 'plan/detail'
+    controller: 'MonthCtrl'
   }
   .state 'report', {
     url: '/report'
@@ -100,7 +101,7 @@ todoApp.controller 'DayCtrl', ($scope, $http, TodoService) ->
     return
 
   $scope.delete = (sid) ->
-    TodoService.del($scope, 'delete', {'sid': sid}, 'day')
+    TodoService.del($scope, 'delete', {'sid': sid})
 
   $scope.send = () ->
     sendData = {
@@ -111,3 +112,47 @@ todoApp.controller 'DayCtrl', ($scope, $http, TodoService) ->
     return
   return
 
+todoApp.controller 'WeekCtrl', ($scope, $http, TodoService) ->
+  TodoService.get_default_data($scope, 'get_default_data', {'type': 'week'})
+  $scope.statusChange = (sid, status)->
+    TodoService.change_status($scope, 'change_status', {'sid': sid, 'status': status})
+    return
+
+  $scope.delete = (sid) ->
+    TodoService.del($scope, 'delete', {'sid': sid}, 'day')
+
+  $scope.send = () ->
+    sendData = {
+      'content' : $scope.pushData
+      'type': 'week'
+    }
+    TodoService.save($scope, 'save', sendData)
+    return
+  return
+
+todoApp.controller 'MonthCtrl', ($scope, $http, TodoService) ->
+  TodoService.get_default_data($scope, 'get_default_data', {'type': 'month'})
+  $scope.statusChange = (sid, status)->
+    TodoService.change_status($scope, 'change_status', {'sid': sid, 'status': status})
+    return
+
+  $scope.delete = (sid) ->
+    TodoService.del($scope, 'delete', {'sid': sid})
+
+  $scope.send = () ->
+    sendData = {
+      'content' : $scope.pushData
+      'type': 'month'
+    }
+    TodoService.save($scope, 'save', sendData)
+    return
+  return
+
+todoApp.directive 'planProgress', ()->
+  scope: false
+  link: (scope, elem, attrs) ->
+    attrs.$set('value', 10)
+    attrs.$set('total', 20)
+    elem.progress(
+    )
+    return

@@ -28,7 +28,8 @@ angular.module 'todoApp.services', []
         this.send(url, par).success((data) ->
           angular.forEach($scope.data, (item) ->
             if item.id is par.sid
-              item['ishide'] = true
+              index = $scope.data.indexOf(item)
+              $scope.data.splice(index, 1)
             return
           )
           return
@@ -43,6 +44,7 @@ angular.module 'todoApp.services', []
             status: false
             type: par.type
             time: data.time
+          $scope.pushData = ''
           return
         )
         return
@@ -95,7 +97,6 @@ todoApp.controller 'todoCtrl', ($scope, TodoService) ->
     return
 
 todoApp.controller 'DayCtrl', ($scope, $http, TodoService) ->
-  TodoService.get_default_data($scope, 'get_default_data', {'type': 'day'})
   $scope.statusChange = (sid, status)->
     TodoService.change_status($scope, 'change_status', {'sid': sid, 'status': status})
     return
@@ -145,14 +146,28 @@ todoApp.controller 'MonthCtrl', ($scope, $http, TodoService) ->
       'type': 'month'
     }
     TodoService.save($scope, 'save', sendData)
-    return
   return
 
-todoApp.directive 'planProgress', ()->
+todoApp.directive 'planProgress', ($http, $location)->
   scope: false
   link: (scope, elem, attrs) ->
-    attrs.$set('value', 10)
-    attrs.$set('total', 20)
-    elem.progress(
-    )
+    get_type = $location.path().split('/')[2]
+    $http.get('get_default_data', params: {'type': get_type}).then (data) ->
+      scope.percentCount = (data) ->
+        truecount = percent = 0
+        angular.forEach data, (item) ->
+          if item.status
+            truecount += 1
+          return
+        percent = (truecount/data.length).toFixed(3)*100
+      scope.data = data.data
+      scope.done = scope.percentCount(scope.data)
+      scope.$watch('data', () ->
+        elem.progress(
+          percent: scope.percentCount(scope.data)
+        )
+        return
+      true
+      )
+      return
     return

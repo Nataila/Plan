@@ -1,3 +1,4 @@
+{% load staticfiles %}
 {% load i18n %}
 <div class="ui menu pointing main large">
   <div class="nav-container">
@@ -5,7 +6,7 @@
       <i class="eyedropper icon"></i>
       {% trans '计划' %}
     </a>
-    <a class="item" href="./#/report">
+    <a class="item" href="{% url 'report' %}">
       <i class="file text icon"></i>
       {% trans '日/周/月报' %}
     </a>
@@ -21,21 +22,36 @@
     </div>
   </div>
 </div>
-<div ui-view></div>
-<div class="ui left vertical visible labeled icon sidebar menu">
-  <a class="item" ui-sref=".day">
-    <i class="home icon"></i>
-    {% trans '日计划' %}
-  </a>
-  <a class="item" ui-sref=".week">
-    <i class="block layout icon"></i>
-    {% trans '周计划' %}
-  </a>
-  <a class="item" ui-sref=".month">
-    <i class="smile icon"></i>
-    {% trans '月计划' %}
-  </a>
+<i class="nav-menu bordered large inverted blue content icon" sidebar-switch></i>
+<div ui-view>
+  <div class="plan-main">
+    <div class="ui grid">
+    <!-- div class="thirteen wide column">
+      <div class="ui segment">
+      </div>
+    </div -->
+      <div class="sixteen wide column">
+        <div class="ui segment">
+          <div id="pie" draw-pie></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+  <div class="ui left vertical labeled icon sidebar menu">
+    <a class="item" ng-class="{navactive: path='day'}" ui-sref=".day" sidebar-switch>
+      <i class="home icon"></i>
+      {% trans '日计划' %}
+    </a>
+    <a class="item" ng-class="{navactive: path='week'}" ui-sref=".week" sidebar-switch>
+      <i class="block layout icon"></i>
+      {% trans '周计划' %}
+    </a>
+    <a class="item" ng-class="{navactive: path='month'}" ui-sref=".month" sidebar-switch>
+      <i class="smile icon"></i>
+      {% trans '月计划' %}
+    </a>
+  </div>
 <script>
   $('.ui.dropdown').dropdown();
 </script>

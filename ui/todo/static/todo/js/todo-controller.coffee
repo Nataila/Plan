@@ -48,6 +48,29 @@ angular.module 'todoApp.services', []
           return
         )
         return
+      drawPie: (chartData) ->
+        chart:
+          plotBackgroundColor: null
+          plotBorderWidth: null
+          plotShadow: false
+        title:
+          text: 'Plan完成情况'
+        tooltip:
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        plotOption:
+          pie:
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels:
+              enabled: true,
+              color: '#000000',
+              connectorColor: '#000000',
+              format: '<b>{series.name}</b> {point.percentage:.1f} %'
+        series: [
+          type: 'pie'
+          name: '我的plan'
+          data: chartData
+        ]
     }
   )
 
@@ -66,6 +89,7 @@ todoApp.config ($stateProvider, $urlRouterProvider) ->
   $stateProvider.state 'plan', {
     url: '/plan'
     templateUrl: 'plan.html'
+    controller: 'HomeCtrl'
   }
   .state 'plan.day', {
     url: '/day'
@@ -82,10 +106,6 @@ todoApp.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: 'plan/detail'
     controller: 'MonthCtrl'
   }
-  .state 'report', {
-    url: '/report'
-    templateUrl: 'report.html'
-  }
   return
 
 todoApp.controller 'todoCtrl', ($scope, TodoService) ->
@@ -95,6 +115,21 @@ todoApp.controller 'todoCtrl', ($scope, TodoService) ->
       closable: false
    }).sidebar 'toggle'
     return
+
+todoApp.controller 'HomeCtrl', ($scope) ->
+  return
+
+todoApp.directive 'sidebarSwitch', () ->
+  link: (scope, elem, attrs) ->
+    elem.bind 'click', () ->
+      $('.sidebar').sidebar({
+        dimPage: false
+        transition: 'overlay'
+      })
+      .sidebar('toggle')
+      return
+    elem.bind 'mouseover', () ->
+      elem.transition('pulse')
 
 todoApp.controller 'DayCtrl', ($scope, $http, TodoService) ->
   $scope.statusChange = (sid, status)->
@@ -152,6 +187,7 @@ todoApp.directive 'planProgress', ($http, $location)->
   scope: false
   link: (scope, elem, attrs) ->
     get_type = $location.path().split('/')[2]
+    scope.path = get_type
     $http.get('get_default_data', params: {'type': get_type}).then (data) ->
       scope.percentCount = (data) ->
         truecount = percent = 0
@@ -171,3 +207,23 @@ todoApp.directive 'planProgress', ($http, $location)->
       )
       return
     return
+
+todoApp.directive 'drawPie', ($http, TodoService) ->
+  scope: false
+  link: (scope, elem, attrs) ->
+    TodoService.send('drawpie').then((data) ->
+      elem.highcharts(TodoService.drawPie(data.data))
+    )
+    return
+
+todoApp.directive 'dropDown', () ->
+  link: (scope, elem, attrs) ->
+    elem.dropdown(
+      on: 'hover'
+    )
+
+todoApp.directive 'setFocus', () ->
+  link: (scope, elem, attrs) ->
+    elem.transition('tada')
+    elem.focus()
+

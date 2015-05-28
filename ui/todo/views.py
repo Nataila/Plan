@@ -87,3 +87,15 @@ def delete(request):
     data = Todo.objects.get(id=sid)
     data.delete()
     return HttpResponse(json.dumps({'status': 200}))
+
+def drawpie(request):
+    """ 获取pie相关数据 """
+    done = nodone = 0
+    data = Todo.objects.all()
+    for i in data:
+        if i.status:
+            done += 1
+        else:
+            nodone += 1
+    result = [[u'完成', done], [u'未完成', nodone]]
+    return HttpResponse(json.dumps(result))

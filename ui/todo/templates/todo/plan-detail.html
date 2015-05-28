@@ -1,9 +1,10 @@
+{% load i18n %}
 <div class="plan-main">
   <div class="ui grid">
     <div class="eleven wide column">
       <div class="ui form">
         <div class="ui fluid action input">
-          <input type="text" placeholder="add new plan" ng-model='pushData' required>
+          <input type="text" placeholder="add new plan" ng-model='pushData' required set-focus>
           <div class="ui primary button icon" ng-click="send()">
             <i class="plus icon"></i>
             ADD
@@ -13,12 +14,37 @@
     </div>
     <div class="eleven wide column">
       <div class="ui segment">
+        <div class="ui indicating small progress" plan-progress>
+          <div class="bar">
+            <div class="progress"></div>
+          </div>
+        </div>
         <div class="ui divided list">
         <div class="item" ng-repeat="item in data track by $index" ng-hide="item.ishide">
-          <div class="right floated compact ui red label del-label" ng-click="delete(item.id)">
-            <i class="remove icon"></i> 删除
+          <div class="right floated ui floating icon dropdown" drop-down>
+            <i class="bordered blue angle double down icon"></i>
+            <div class="menu">
+              <div class="item">
+                <i class="edit icon"></i>编辑
+              </div>
+              <div class="item">
+                <i class="pointing right icon"></i>
+                <span class="text">延后</span>
+                <i class="caret right icon"></i>
+                <div class="right menu">
+                  <div class="item">一天</div>
+                  <div class="item">两天</div>
+                  <div class="item">三天</div>
+                  <div class="item">四天</div>
+                </div>
+              </div>
+              <div class="item" ng-click="delete(item.id)">
+                <i class="remove icon"></i> 删除
+              </div>
+            </div>
           </div>
-          <div class="right floated compact ui blue label">
+
+          <div class="right floated compact ui label">
             <i class="wait icon"></i><span ng-bind="item.time"></span>
           </div>
           <input
@@ -30,12 +56,6 @@
         <label ng-bind="item.content" ng-class="{done: item.status}"></label>
        </div>
       </div>
-
-        <div class="ui indicating small progress" plan-progress>
-          <div class="bar">
-            <div class="progress"></div>
-          </div>
-        </div>
 
       </div>
     </div>

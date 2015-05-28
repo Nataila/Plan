@@ -1,7 +1,7 @@
 "use strict"
 
 angular.module 'todoApp.services', []
-  .factory('TodoService', ($http) ->
+  .factory('TodoService', ($http, $location) ->
     return {
       send: (url, par) ->
         $http.get(url, params: par)
@@ -35,6 +35,14 @@ angular.module 'todoApp.services', []
           return
         )
         return
+
+      getAddr: () ->
+        pathDict =
+          '/plan/day': '日计划'
+          '/plan/week': '周计划'
+          '/plan/month': '月计划'
+        path = $location.path()
+        return pathDict[path]
 
       save: ($scope, url, par) ->
         this.send(url, par).success((data) ->
@@ -131,7 +139,8 @@ todoApp.directive 'sidebarSwitch', () ->
     elem.bind 'mouseover', () ->
       elem.transition('pulse')
 
-todoApp.controller 'DayCtrl', ($scope, $http, TodoService) ->
+todoApp.controller 'DayCtrl', ($scope, $http, $location, TodoService) ->
+  $scope.addr = TodoService.getAddr()
   $scope.statusChange = (sid, status)->
     TodoService.change_status($scope, 'change_status', {'sid': sid, 'status': status})
     return
@@ -148,7 +157,8 @@ todoApp.controller 'DayCtrl', ($scope, $http, TodoService) ->
     return
   return
 
-todoApp.controller 'WeekCtrl', ($scope, $http, TodoService) ->
+todoApp.controller 'WeekCtrl', ($scope, $http, $location, TodoService) ->
+  $scope.addr = TodoService.getAddr()
   TodoService.get_default_data($scope, 'get_default_data', {'type': 'week'})
   $scope.statusChange = (sid, status)->
     TodoService.change_status($scope, 'change_status', {'sid': sid, 'status': status})
@@ -166,7 +176,8 @@ todoApp.controller 'WeekCtrl', ($scope, $http, TodoService) ->
     return
   return
 
-todoApp.controller 'MonthCtrl', ($scope, $http, TodoService) ->
+todoApp.controller 'MonthCtrl', ($scope, $http, $location, TodoService) ->
+  $scope.addr = TodoService.getAddr()
   TodoService.get_default_data($scope, 'get_default_data', {'type': 'month'})
   $scope.statusChange = (sid, status)->
     TodoService.change_status($scope, 'change_status', {'sid': sid, 'status': status})
@@ -230,6 +241,7 @@ todoApp.directive 'addAnimate', () ->
     )
 
 todoApp.directive 'setFocus', () ->
+  link: (scope, elem, attrs) ->
     elem.focus()
 
 todoApp.directive 'listDirective', () ->

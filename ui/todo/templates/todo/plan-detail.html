@@ -2,6 +2,13 @@
 <div class="plan-main">
   <div class="ui grid">
     <div class="eleven wide column">
+      <div class="ui breadcrumb">
+        <a class="section">计划</a>
+        <i class="right chevron icon divider"></i>
+        <div class="active section"><span ng-bind="addr"></span></div>
+      </div>
+    </div>
+    <div class="eleven wide column">
       <div class="ui form">
         <div class="ui fluid action input" add-animate>
           <input type="text" placeholder="add new plan" ng-model='pushData' required set-focus>

@@ -222,8 +222,19 @@ todoApp.directive 'dropDown', () ->
       on: 'hover'
     )
 
-todoApp.directive 'setFocus', () ->
+todoApp.directive 'addAnimate', () ->
   link: (scope, elem, attrs) ->
-    elem.transition('tada')
+    elem.transition(
+      animation: 'bounce'
+      duration: '1500ms'
+    )
+
+todoApp.directive 'setFocus', () ->
     elem.focus()
 
+todoApp.directive 'listDirective', () ->
+  link: (scope, elem, attrs) ->
+    elem.transition(
+      animation: 'drop'
+      duration: '1500ms'
+    )

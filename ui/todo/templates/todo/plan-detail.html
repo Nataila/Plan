@@ -3,7 +3,7 @@
   <div class="ui grid">
     <div class="eleven wide column">
       <div class="ui form">
-        <div class="ui fluid action input">
+        <div class="ui fluid action input" add-animate>
           <input type="text" placeholder="add new plan" ng-model='pushData' required set-focus>
           <div class="ui primary button icon" ng-click="send()">
             <i class="plus icon"></i>
@@ -19,11 +19,11 @@
             <div class="progress"></div>
           </div>
         </div>
-        <div class="ui divided list">
-        <div class="item" ng-repeat="item in data track by $index" ng-hide="item.ishide">
+        <div class="ui divided list hidden" list-directive>
+        <div class="item data-list" ng-repeat="item in data track by $index" ng-hide="item.ishide">
           <div class="right floated ui floating icon dropdown" drop-down>
             <i class="bordered blue angle double down icon"></i>
-            <div class="menu">
+            <div class="right menu">
               <div class="item">
                 <i class="edit icon"></i>编辑
               </div>

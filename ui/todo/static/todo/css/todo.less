@@ -27,3 +27,16 @@
   color: rgb(178, 175, 175);
   text-decoration: line-through;
 }
+
+.data-list.ng-enter, .data-list.ng-leave {
+  --webkit-transition: 1s linear all;
+  transition: 1s linear all;
+}
+
+.data-list.ng-enter, .data-list.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+
+.data-list.ng-leave, .data-list.ng-enter.ng-enter-active {
+  opacity: 1;
+}

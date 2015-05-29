@@ -1,1 +1,1 @@
-angular.module 'todoApp', ['ui.router']
+angular.module 'todoApp', ['ui.router', 'ngAnimate']

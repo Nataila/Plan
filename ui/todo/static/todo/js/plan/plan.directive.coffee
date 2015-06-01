@@ -67,3 +67,8 @@ angular.module 'todoApp'
         return
       elem.bind 'mouseover', () ->
         elem.transition('pulse')
+  .directive 'detailDirective', () ->
+    link: (scope, elem, attrs) ->
+      elem.bind 'hover', () ->
+        console.log 3333123
+        return

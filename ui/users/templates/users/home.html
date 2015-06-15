@@ -38,7 +38,7 @@
       }
 
       path {
-        fill: #369;
+        fill: #f39c12;
       }
 
       polyline {
@@ -279,32 +279,6 @@
 </svg>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-
-    var svg = new Walkway('#triangle');
-
-    svg.draw(function() {
-      console.dir('Finished triangle!');
-    });
-
-    var svg2 = new Walkway({
-      selector: '#diamond',
-      duration: 2500,
-      easing: 'linear'
-    }).draw(function() {
-      console.dir('Finished diamond!');
-    });
-
-    var svg3 = new Walkway({
-      selector: '#tester',
-      duration: 5000,
-      easing: 'linear'
-    });
-
-    svg3.draw(function() {
-      console.log('Finished test shape!');
-    });
-
-
     var svg5 = new Walkway({
       selector: '#svg2',
       duration: 3000
